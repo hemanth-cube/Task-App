@@ -56,7 +56,7 @@ app.post('/signup',(req,res)=>{
        
         
 
-app.get('/login',(req,res)=>{
+app.post('/login',(req,res)=>{
 const checkUsername = req.body.username
 const checkPassword = req.body.password
  signcollections.findOne({username:{$eq:checkUsername}}).then((found)=>{
