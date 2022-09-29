@@ -2,7 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 require('./db/mongoose')
 const cors = require('cors')
-const signupcollection = require('./models/signupmodel')
+const signcollections = require('./models/signmodel')
 const bcrypt = require('bcryptjs')
 const saltRounds = 8
 const app = express()
@@ -32,39 +32,36 @@ app.use((req, res, next) => {
     }
 
 });
-app.post('/signup',urlencodedbodyparser,(req,res)=>{
-        console.log("********",req)
-       bcrypt.hash(req.body.password,saltRounds).then((hashedPassword)=>{
-            const usr = new signupcollection({
-                firstname:req.body.Firstname,
-                lastname:req.body.Lastname,
-                username:req.body.username,
-                password:hashedPassword
-            })
-            usr.save().then(()=>{
-                res.send({
-                    status:200,
-                    message:"success",
-                    data:usr
-                })
-            }).catch((err)=>{
-                res.send({
-                    status:400,
-                    message:err
-                })
-            })
-       })
+app.post('/signup',(req,res)=>{
+  bcrypt.hash(req.body.password,saltRounds).then((hashedPassword)=>
+  {
+                    const usr = new signcollections({
+                                    firstname:req.body.firstname,
+                                    lastname:req.body.lastname,
+                                    username:req.body.username,
+                                    password:hashedPassword
+                    })
+                    usr.save((error,data)=>{
+                        if(error){
+                            return res.send(error)}    
+                        res.status(200).send(data)
+                    })
+    }).catch((err)=>{
+        res.status(400).send(err)
+    })
+
+    
        
 })
        
         
 
 app.get('/login',(req,res)=>{
-const checkUsername = req.body.email
+const checkUsername = req.body.username
 const checkPassword = req.body.password
- signupcollection.findOne({username:{$eq:checkUsername}}).then((found)=>{
+ signcollections.findOne({username:{$eq:checkUsername}}).then((found)=>{
         if(!found){
-            return res.status(400).send("Email not found!")
+            return res.status(400).send("username not found!")
         }
         bcrypt.compare(checkPassword,found.password).then((isMatched)=>{
             if(isMatched==true){

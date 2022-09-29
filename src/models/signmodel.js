@@ -27,5 +27,5 @@ const signupschema = new mongoose.Schema({
 
 })
 
-const signupcollections = new mongoose.model('signupcollections',signupschema)
-module.exports=signupcollections
+const signcollections = new mongoose.model('signcollections',signupschema)
+module.exports=signcollections

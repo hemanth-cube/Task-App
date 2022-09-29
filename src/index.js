@@ -48,6 +48,12 @@ app.get('/users',(req,res)=>{
     // res.send("Inside of getting users")
 })
 
+app.post('users/login',async(req,res)=>{
+    await users.findByCredentials(req.body.username,req.body.password)
+})
+
+
+
 app.get('/task',async (req,res)=>{
     try{
         res.send(await task.find({}))
