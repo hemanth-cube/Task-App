@@ -27,5 +27,21 @@ const signupschema = new mongoose.Schema({
 
 })
 
+// signupschema.statics.findByCredentials=(username,password)=>{   
+   
+//     const found = signcollections.findOne({username:{$eq:username}})
+//     console.log(found)
+//     if(!found){
+//         throw new Error('username not found!')
+//     }
+//     isMatched =  bcrypt.compare(password,found.password)
+//     console.log(isMatched)
+//     if(!isMatched){
+//         throw new Error('unable to login') 
+//     }  
+//     return found
+// }
+
+
 const signcollections = new mongoose.model('signcollections',signupschema)
 module.exports=signcollections
