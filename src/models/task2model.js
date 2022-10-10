@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const validator = require('validator')
+const signcollections = require('./signmodel')
 
 const task2schema = mongoose.Schema({
     title:{
@@ -8,9 +9,14 @@ const task2schema = mongoose.Schema({
     },
     description:{
         type:String,
-        required:true
+        default:false
+    },
+    Owner:{
+        type:mongoose.Schema.Types.ObjectId,
+        required:true,
+        ref:'signcollections'             // referncing user collection
     }
-})
+},{timestamps:true})
 
 const task2collection = mongoose.model("task2collection",task2schema)
 

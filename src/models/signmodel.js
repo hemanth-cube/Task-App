@@ -23,24 +23,35 @@ const signupschema = new mongoose.Schema({
             type:String,
             required:true,
             minlength:7
-    }
+    },
+    tokens:[{
+            token:{
+                type:String,
+                required:true
+            }
+    }]
+    // avatar:{
+    //     type:Buffer
+    // }
 
+},{timestamps:true})
+
+signupschema.virtual('virtualtask',{
+    ref:'task2collection',        // Task collection
+    localField:'_id',           // Acutal Owners id
+    foreignField:'Owner'        // Tasks Owner id
 })
-
+//signupschema.methods.toJSON=function()  or
+signupschema.methods.getProfile = function(){
+    const user = this
+    const userObject = user.toObject()
+    delete userObject.password        // Hiding password
+    delete userObject.tokens          // Hiding tokens
+    return userObject
+}
 // signupschema.statics.findByCredentials=(username,password)=>{   
    
-//     const found = signcollections.findOne({username:{$eq:username}})
-//     console.log(found)
-//     if(!found){
-//         throw new Error('username not found!')
-//     }
-//     isMatched =  bcrypt.compare(password,found.password)
-//     console.log(isMatched)
-//     if(!isMatched){
-//         throw new Error('unable to login') 
-//     }  
-//     return found
-// }
+
 
 
 const signcollections = new mongoose.model('signcollections',signupschema)
