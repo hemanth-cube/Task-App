@@ -95,7 +95,7 @@ app.delete('/deleteuser',auth,async(req,res)=>{
 app.patch('/updateuser',auth,async(req,res)=>{
     const updates = Object.keys(req.body)
     console.log(updates)
-    const allowedUpdates = ['firstname','lastname','username','password']
+    const allowedUpdates = ['firstname','lastname','username']
     const bool = updates.every((update)=>{      // every returns true/false
         return allowedUpdates.includes(update)
     })
@@ -111,9 +111,9 @@ app.patch('/updateuser',auth,async(req,res)=>{
 
 
 })
-
 app.get('/titleview/:id',async(req,res)=>{
     const _id = req.params.id
+    // console.log('title id ',_id)
     try{
         const data = await task2collection.findById(_id)
         res.send({
