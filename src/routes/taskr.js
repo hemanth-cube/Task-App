@@ -79,6 +79,21 @@ router.get('/specifictasks',auth,async(req,res)=>{
     }
    
 })
-
+router.delete('/deleteTask/:id',async(req,res)=>{
+    
+    try{
+        console.log(req.params.id)
+        const task = await task2collection.findById(req.params.id)
+        await task.remove()
+        res.send(task)
+    }
+   catch(err){
+    res.send({
+        status:400,
+        message:err
+    })
+   }
+    
+})
 module.exports = router
 

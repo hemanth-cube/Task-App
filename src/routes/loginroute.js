@@ -16,11 +16,11 @@ router.post('/login',(req,res)=>{
                 bcrypt.compare(checkPassword,found.password).then((isMatched)=>{
                     if(isMatched==true){
                         const token = jwt.sign(found.username,process.env.JWT_SECRET)
-                        // console.log('token-->',token)
+                        console.log('token-->',token)
                         found.tokens = found.tokens.concat({token})     // For concat we need to place required:true
                         found.save()
                         // res.send({found:found.getProfile(), token})
-                        res.send({found,token})  //==> Before sending data,it checks any toJSON present in the schema or not
+                        res.status(201).send({accessToken: token})  //==> Before sending data,it checks any toJSON present in the schema or not
                     }
                     else
                         res.status(400).send('Wrong password!')
@@ -33,10 +33,10 @@ router.post('/login',(req,res)=>{
     })
 })
 
-router.get('/login/me',auth,async(req,res)=>{
+router.get('/displayuserDetails',auth,async(req,res)=>{
     console.log('loginme')
     try{
-        await res.status(200).send(req.user)
+        await res.status(200).send({user:req.user.getProfile()})
     }
     catch(e){
         res.send({
