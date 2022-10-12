@@ -2,6 +2,7 @@ const express = require('express')
 const task2collection = require('../models/task2model')
 const router = new express.Router()
 const auth = require('../middleware/auth')
+const signcollections = require('../models/signmodel')
 router.post('/createpost',auth,async(req,res)=>{
     const data = new task2collection({
     ...req.body,
@@ -35,8 +36,21 @@ router.get('/listall',async(req,res)=>{
 
 router.get('/usertasks',auth,async(req,res)=>{
     
-    req.user.populate('virtualtask').execPopulate()
-    res.send(req.user.virtualtask)
+    req.user.populate('virtualtask').execPopulate((err,data)=>{
+        if(err)
+        {
+            return res.send({
+                status:400,
+                message:err
+            })
+        }
+        console.log(data.virtualtask)
+        res.send(data.virtualtask)
+    })
+    // res.send(req.user.virtualtask)
+
+
+    
 
 })
 router.get('/gettasks',async(req,res)=>{
@@ -78,6 +92,23 @@ router.get('/specifictasks',auth,async(req,res)=>{
         res.send(err)
     }
    
+})
+router.get('/titleview/:id',async(req,res)=>{
+    const _id = req.params.id
+    // console.log('title id ',_id)
+    try{
+        const data = await task2collection.findById(_id)
+        res.send({
+            status:200,
+            message:data
+        })
+    }
+    catch(err){
+        res.send({
+            status:400,
+            message:err
+        })
+    }
 })
 router.delete('/deleteTask/:id',async(req,res)=>{
     

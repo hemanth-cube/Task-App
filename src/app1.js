@@ -111,23 +111,7 @@ app.patch('/updateuser',auth,async(req,res)=>{
 
 
 })
-app.get('/titleview/:id',async(req,res)=>{
-    const _id = req.params.id
-    // console.log('title id ',_id)
-    try{
-        const data = await task2collection.findById(_id)
-        res.send({
-            status:200,
-            message:data
-        })
-    }
-    catch(err){
-        res.send({
-            status:400,
-            message:err
-        })
-    }
-})
+
 
 
 

@@ -11,6 +11,10 @@ const task2schema = mongoose.Schema({
         type:String,
         default:false
     },
+    idd:{
+        type:Number,
+        required:true
+    },
     Owner:{
         type:mongoose.Schema.Types.ObjectId,
         required:true,
