@@ -12,14 +12,14 @@ var smtpTransport = nodemailer.createTransport({
         pass: "Micro@9876"
     }
 });
-const getMail = (toEmail)=>{
+const getMail = (toEmail,description)=>{
     console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
     console.log(toEmail)
     var mailOptions = {
         from: "chiruvella.hemanth@cubehighways.com", 
         to:toEmail, // list of receivers
         subject: "Hello ✔", // Subject line
-        text: "Hello world ✔", // plaintext body
+        text: description, // plaintext body
         html: "<b>Hello world ✔</b>" // html body
     }
     smtpTransport.sendMail(mailOptions)

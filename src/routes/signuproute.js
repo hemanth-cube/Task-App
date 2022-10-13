@@ -15,13 +15,14 @@ router.post('/signup',(req,res)=>{
             firstname:req.body.firstname,
             lastname:req.body.lastname,
             username:req.body.username,
-            password:hashedPassword
+            password:hashedPassword,
+            description:req.body.description
         })
       
         try{
             const user = await usr.save()
             console.log(user.username)
-            sendMail.setMail(user.username) // Here we use (sendmail.getMail) because in module.exports of sendmail path ..used flower brace which represents object
+            sendMail.setMail(user.username,user.description) // Here we use (sendmail.getMail) because in module.exports of sendmail path ..used flower brace which represents object
             // b(3,2)
             res.send(user)
         }

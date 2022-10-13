@@ -112,6 +112,12 @@ app.patch('/updateuser',auth,async(req,res)=>{
 
 })
 
+app.get('/listallusers',async(req,res)=>{
+    const allusers = await signcollections.find({},{username:1,description:1})    // We need to store qury result before printing or sending response
+    res.send(allusers)
+    // res.send(signcollections.find({},{projection:{description:1}}))
+    // res.send("hiii")
+})
 
 
 
